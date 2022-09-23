@@ -6,8 +6,8 @@ from google.protobuf.timestamp_pb2 import Timestamp
 from google.protobuf import text_format
 
 import crawler
-#from parser import parse
-#import metadado
+from parser import parse
+import metadado
 import data
 
 
@@ -35,7 +35,7 @@ else:
     crawler_version = "unspecified"
 
 
-def parse_execution(data, file_names):
+def parse_execution(data, file_name):
     # Cria objeto com dados da coleta.
     coleta = Coleta.Coleta()
     coleta.chave_coleta = IDColeta("stf", month, year)
@@ -44,22 +44,22 @@ def parse_execution(data, file_names):
     coleta.ano = int(year)
     coleta.repositorio_coletor = "https://github.com/dadosjusbr/coletor-stf"
     coleta.versao_coletor = crawler_version
-    coleta.arquivos.extend(file_names)
+    coleta.arquivos.extend(file_name)
     timestamp = Timestamp()
     timestamp.GetCurrentTime()
     coleta.timestamp_coleta.CopyFrom(timestamp)
 
     # Consolida folha de pagamento
-    folha = Coleta.FolhaDePagamento()
-    #folha = parse(data, coleta.chave_coleta, month, year)
+    payroll = Coleta.FolhaDePagamento()
+    payroll = parse(data, coleta.chave_coleta)
 
     # Monta resultado da coleta.
     rc = Coleta.ResultadoColeta()
-    rc.folha.CopyFrom(folha)
+    rc.folha.CopyFrom(payroll)
     rc.coleta.CopyFrom(coleta)
 
-    #metadados = metadado.captura(int(month), int(year))
-    #rc.metadados.CopyFrom(metadados)
+    metadados = metadado.captura(int(month), int(year))
+    rc.metadados.CopyFrom(metadados)
 
     # Imprime a versão textual na saída padrão.
     print(text_format.MessageToString(rc), flush=True, end="")
@@ -67,11 +67,11 @@ def parse_execution(data, file_names):
 
 # Main execution
 def main():
-    file_names = crawler.crawl(year, month, output_path)
-    dados = data.load(file_names, year, month, output_path)
+    file_name = crawler.crawl(year, month, output_path)
+    dados = data.load(file_name[0], year, month, output_path)
     dados.validate()  # Se não acontecer nada, é porque está tudo ok!
     
-    #parse_execution(dados, file_names)
+    parse_execution(dados, file_name)
 
 
 if __name__ == "__main__":

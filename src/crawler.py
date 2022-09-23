@@ -37,9 +37,9 @@ def download(url, file_path):
 
 def crawl(year, month, output_path):
     pathlib.Path(output_path).mkdir(exist_ok=True)
-    filename = f'membros-ativos-contracheques-{month}-{year}.xls'
-    file_path = f'{output_path}/{filename}'
+    filename = f'membros-ativos-contracheques-{month}-{year}.html'
+    file_path = [f'{output_path}/{filename}']
     url = f'https://egesp-portal.stf.jus.br/transparencia/rendimento_folha?utf8=%E2%9C%93&tipo_relatorio=XLSX&q%5Bano_eq%5D={year}&q%5Bmes_eq%5D={int(month)}&q%5Bid_aux_eq%5D=0&q%5Bcdg_ordem_in%5D%5B%5D=&q%5Bcdg_cargo_efetivo_in%5D%5B%5D=&q%5Bcdg_cargo_comissionado_in%5D%5B%5D=&q%5Bcdg_funcao_in%5D%5B%5D=&q%5Bcdg_unidade_in%5D%5B%5D=&q%5Bcdg_sitfunc_eq%5D=12&button='
-    download(url, file_path)
+    download(url, file_path[0])
 
     return file_path
