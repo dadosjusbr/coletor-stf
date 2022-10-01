@@ -44,7 +44,7 @@ def parse_execution(data, file_name):
     coleta.ano = int(year)
     coleta.repositorio_coletor = "https://github.com/dadosjusbr/coletor-stf"
     coleta.versao_coletor = crawler_version
-    coleta.arquivos.extend(file_name)
+    coleta.arquivos.extend([file_name])
     timestamp = Timestamp()
     timestamp.GetCurrentTime()
     coleta.timestamp_coleta.CopyFrom(timestamp)
@@ -68,7 +68,7 @@ def parse_execution(data, file_name):
 # Main execution
 def main():
     file_name = crawler.crawl(year, month, output_path)
-    dados = data.load(file_name[0], year, month, output_path)
+    dados = data.load(file_name, year, month, output_path)
     dados.validate()  # Se não acontecer nada, é porque está tudo ok!
     
     parse_execution(dados, file_name)
