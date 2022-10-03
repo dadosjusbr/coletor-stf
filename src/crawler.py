@@ -5,6 +5,8 @@ import pathlib
 
 
 def download(url, file_path):
+    # Precisamos desses cabeçalhos para especificar a nossa requisição e para que o site (stf) possa identificar a sessão 
+    # e não "barrar" a nossa solicitação de acesso aos dados.
     try:
         headers = {
             "authority": "egesp-portal.stf.jus.br",
