@@ -14,7 +14,12 @@ def parse_employees(file, chave_coleta, month, year):
         member.chave_coleta = chave_coleta
         member.matricula = str(row[0])
         member.nome = row[1]
-        member.funcao = row[2]
+        # Quando o membro não possui função, i.e. célula NaN, não é um membro ativo
+        # Usando como exemplo ROSA MARIA PIRES WEBER, ex-ministra, ainda presente no contracheque
+        if not number.is_nan(row[2]):
+            member.funcao = row[2]
+        else:
+            continue
         if not number.is_nan(row[5]):
             member.local_trabalho = row[5]
         member.tipo = Coleta.ContraCheque.Tipo.Value("MEMBRO")
