@@ -1,8 +1,13 @@
 # set base image (host OS)
 FROM python:3.8-slim-buster
 
-RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libxml2-dev \
+    libxslt1-dev \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # set the working directory in the container
 WORKDIR /code
