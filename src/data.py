@@ -12,8 +12,8 @@ STATUS_INVALID_FILE = 5
 
 def _read(file):
     try:
-        data = pd.read_html(file)
-        data = numpy.array(data[1])
+        data = pd.read_html(file, header=0)[2]
+        data = numpy.array(data)
 
     except Exception as excep:
         print(f"Erro lendo as planilhas: {excep}", file=sys.stderr)
