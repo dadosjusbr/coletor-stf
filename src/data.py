@@ -16,9 +16,10 @@ def _read(file):
         data = numpy.array(data)
 
     except Exception as excep:
-        print(f"Erro lendo as planilhas: {excep}", file=sys.stderr)
-        if "html5lib not found, please install it" in str(excep):
+        if "html5lib not found, please install it" in str(excep) or "Missing optional dependency 'html5lib'" in str(excep):
+            print("Sem dados disponíveis", file=sys.stderr)
             sys.exit(STATUS_DATA_UNAVAILABLE)
+        print(f"Erro lendo as planilhas: {excep}", file=sys.stderr)
         sys.exit(STATUS_INVALID_FILE)
     return data
 
